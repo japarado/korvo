@@ -62,5 +62,31 @@ class UserTableSeeder extends Seeder
             'type' => 'TYPE B',
             'college' => 'COLLEGE TWO'
         ]);
+
+        // Create SOCC users 
+        $socc_user_one = User::create([
+            'first_name' => 'SOCC ',
+            'last_name' => 'One',
+            'email' => 'socc1@mail.com',
+            'student_number' => 'STU3',
+            'password' => 'secret',
+            'role_id' => Config::get('constants.roles.socc')
+        ]);
+        $socc_user_two = User::create([
+            'first_name' => 'SOCC ',
+            'last_name' => 'Two',
+            'email' => 'socc2@mail.com',
+            'student_number' => 'STU4',
+            'password' => 'secret',
+            'role_id' => Config::get('constants.roles.socc')
+        ]);
+
+        SOCC::create([
+            'user_id' => $socc_user_one->id
+        ]);
+
+        SOCC::create([
+            'user_id' => $socc_user_two->id
+        ]);
     }
 }
