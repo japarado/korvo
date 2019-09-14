@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class DataController extends Controller
@@ -22,11 +23,15 @@ class DataController extends Controller
 
     public function test(Request $request)
     {
-        $token = $request->header('Authorization');
-        $user = JWTAuth::user();
-        return response()->json([
-            'token' => $request->header('Authorization'),
-            'user' => $user,
-        ]);
+        $user = JWTAuth::parseToken()->authenticate();
+        return $user;
+        /* $token = $request->header('Authorization'); */
+        /* $user = JWTAuth::user(); */
+        /* $role = Config::get('roles.organization'); */
+        /* return response()->json([ */
+        /*     'token' => $request->header('Authorization'), */
+        /*     'user' => $user, */
+        /*     'role' */
+        /* ]); */
     }
 }

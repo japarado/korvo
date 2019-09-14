@@ -16,7 +16,7 @@ class RoleTableSeeder extends Seeder
             'description' => 'Generic organization role, creates events'
         ]);
         DB::table('role')->insert([
-            'name' => 'SOOC',
+            'name' => 'SOCC',
             'description' => 'Approves events submitted by the students'
         ]);
         DB::table('role')->insert([

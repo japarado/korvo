@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Event;
+use Illuminate\Support\Facades\Config;
 
 class EventController extends Controller
 {
@@ -13,6 +14,7 @@ class EventController extends Controller
      */
     public function index()
     {
+        return Config::get('constants.roles.sooc');
     }
 
     /**
