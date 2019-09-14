@@ -8,6 +8,9 @@ use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 use App\Role;
+use App\Organization;
+use App\OSA;
+use Appo\SOCC;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -54,5 +57,20 @@ class User extends Authenticatable implements JWTSubject
     public function role()
     {
         return $this->belongsTo(Role::class, 'role_id', 'id');
+    }
+
+    public function organization()
+    {
+        return $this->hasOne(Organization::class, 'user_id', 'id');
+    }
+
+    public function socc()
+    {
+        return $this->hasOne(SOCC::class, 'user_id', 'id');
+    }
+
+    public function osa()
+    {
+        return $this->hasOne(OSA::class, 'user_id', 'id');
     }
 }
