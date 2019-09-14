@@ -22,8 +22,8 @@ Route::post('register', 'UserController@register');
 Route::post('login', 'UserController@authenticate');
 Route::get('open', 'DataController@open');
 Route::group(['middleware' => ['jwt.verify']], function () {
+    Route::resource('events', 'EventController');
     Route::get('user', 'UserController@getAuthenticatedUser');
     Route::get('closed', 'DataController@closed');
     Route::get('test', 'DataController@test');
 });
-    Route::resource('events', 'EventController');

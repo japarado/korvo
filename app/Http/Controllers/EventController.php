@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Event;
 use Illuminate\Support\Facades\Config;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class EventController extends Controller
 {
@@ -12,9 +13,9 @@ class EventController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Config::get('constants.roles.sooc');
+        $user = JWTAuth::parseToken()->authenticate();
     }
 
     /**
