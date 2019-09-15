@@ -11,10 +11,12 @@ use App\Role;
 use App\Organization;
 use App\OSA;
 use App\SOCC;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
