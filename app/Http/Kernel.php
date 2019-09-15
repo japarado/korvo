@@ -61,6 +61,9 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'jwt.verify' => \App\Http\Middleware\JwtMiddleware::class,
+        'org.user' => \App\Http\Middleware\OrgUserMiddleware::class,
+        'socc.user' => \App\Http\Middleware\SoccUserMiddleware::class,
+        'osa.user' => \App\Http\Middleware\OsaMiddleware::class,
     ];
 
     /**

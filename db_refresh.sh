@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo pam | sudo -S systemctl stop mariadb postgresql;
+echo pam | sudo -S systemctl start mariadb postgresql;
+
 mysql -u root --execute="DROP DATABASE IF EXISTS ust";
 mysql -u root --execute="CREATE DATABASE IF NOT EXISTS ust";
 

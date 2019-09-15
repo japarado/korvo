@@ -148,7 +148,26 @@ class UserController extends Controller
         return response()->json(compact('user'));
     }    
 
+    public function index()
+    {
+        $x = [];
+        $users = User::all()->each(function($user) use($x) { 
+            array_push($x, static::getUserRoleInstance($user));
+        });
+        return response()->json([
+            'x' => $x,
+            'users' => $users
+        ]);
+    }
+
+    public function destroy($id)
+    {
+        $user = User::find($id);
+        $user->delete();
+        return response()->json([
+            'user' => $user
+        ]);
+    }
+
     // Helper Functions
-
-
 }

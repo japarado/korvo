@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use App\Event;
 use App\User;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class EventController extends Controller
@@ -19,16 +21,29 @@ class EventController extends Controller
         $user = static::getCurrentUser();
         $role_user = static::getUserRoleInstance();
 
-        /* $status = $request->input('status', null); */
-
-        /* if($status) */
-        /* { */
-        /*     $events = $role_user->events()->where('status', $status)->get(); */
-        /* } */
+        if($user->role_id == Config::get('constants.roles.organization'))
+        {
+            $events = $role_user->events;
+        }
+        elseif($user->role_id == Config::get('constants.roles.socc'))
+        {
+            $events = Event::whereIn('status', [
+                Config::get('constants.event_status.socc_approval'),
+                Config::get('constants.event_status.osa_rejection'),
+            ])->get();
+        }
+        elseif($user->role_id == Config::get('constants.roles.osa'))
+        {
+            $events = Event::whereIn('status', [
+                Config::get('constants.event_status.osa_approval'),
+                Config::get('constants.event_status.archived'),
+            ])->get();
+        }
 
         return response()->json([
-            'user' => $user,
-            'role_user' => $role_user,
+            /* 'user' => $user, */
+            /* 'role_user' => $role_user, */
+            'events' => $events,
         ]);
     }
 
@@ -39,7 +54,6 @@ class EventController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
@@ -50,7 +64,39 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'name' => 'required',
+            'academic_year' => 'required',
+            'status' => [
+                'required',
+                'numeric',
+                Rule::in([
+                    Config::get('constants.event_status.draft'),
+                    Config::get('constants.event_status.socc_approval'),
+                ]),
+            ],
+            'date_start' => 'required|date'
+        ];
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails())
+        {
+            return response()->json($validator->errors());
+        }
+        else 
+        {
+            $user = static::getCurrentUser();
+            $event = new Event();
+            $event->name = $request->get('name');
+            $event->academic_year = $request->get('academic_year');
+            $event->date_start = $request->get('date_start');
+            $event->status = $request->get('status');
+            $event->organization_id = $user->id;
+            $event->save();
+
+            return response()->json([
+                'event' => $event
+            ]);
+        }
     }
 
     /**
@@ -61,7 +107,15 @@ class EventController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = static::getCurrentUser();
+        $role_user = static::getUserRoleInstance();
+        if($user->role_id == Config::get('constants.roles.organization'))
+        {
+            $event = $role_user->events()->find($id);
+        }
+        else 
+        {
+        }
     }
 
     /**
