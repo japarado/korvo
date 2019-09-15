@@ -113,9 +113,27 @@ class EventController extends Controller
         {
             $event = $role_user->events()->find($id);
         }
-        else 
+        elseif($user->role_id == Config::get('constants.roles.socc'))
         {
+            $event = Event::whereIn('status',[
+                Config::get('constants.event_status.socc_approval'),
+                Config::get('constants.event_status.osa_rejection'),
+            ])
+                ->where('id', $id)
+                ->get();
         }
+        elseif($user->role_id == Config::get('constants.roles.osa'))
+        {
+            $event = Event::whereIn('status',[
+                Config::get('constants.event_status.osa_approval'),
+                Config::get('constants.event_status.archived'),
+            ])
+                ->where('id', $id)
+                ->get();
+        }
+        return response()->json([
+            'event' => $event
+        ]);
     }
 
     /**
