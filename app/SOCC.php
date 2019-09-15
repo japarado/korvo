@@ -14,4 +14,9 @@ class SOCC extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    public function events()
+    {
+        return $this->hasMany(Event::class, 'socc_id', 'user_id');
+    }
 }

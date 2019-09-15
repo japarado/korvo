@@ -10,7 +10,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use App\Role;
 use App\Organization;
 use App\OSA;
-use Appo\SOCC;
+use App\SOCC;
 
 class User extends Authenticatable implements JWTSubject
 {

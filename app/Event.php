@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Organization;
-use App\SOOC;
+use App\SOCC;
 use App\OSA;
 
 class Event extends Model
@@ -17,5 +17,15 @@ class Event extends Model
     public function organization()
     {
         return $this->belongsTo(Organization::class, 'organization_id', 'user_id');
+    }
+
+    public function socc()
+    {
+        return $this->belongsTo(SOCC::class, 'socc_id', 'user_id');
+    }
+
+    public function osa()
+    {
+        return $this->belongsTo(OSA::class, 'osa_id', 'user_id');
     }
 }

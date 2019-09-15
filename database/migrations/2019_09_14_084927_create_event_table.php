@@ -25,9 +25,9 @@ class CreateEventTable extends Migration
 
             $table->timestamps();
 
-            $table->foreign('organization_id')->references('id')->on('users');
-            $table->foreign('socc_id')->references('id')->on('users');
-            $table->foreign('osa_id')->references('id')->on('users');
+            $table->foreign('organization_id')->references('user_id')->on('organization');
+            $table->foreign('socc_id')->references('user_id')->on('socc');
+            $table->foreign('osa_id')->references('user_id')->on('osa');
 
             $table->softDeletes();
         });
