@@ -20,13 +20,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('register', 'UserController@register');
 Route::post('login', 'UserController@authenticate');
-Route::resource('users', 'UserController');
 Route::group(['middleware' => ['jwt.verify']], function () {
 
     Route::prefix('users')->group(function(){
         Route::get('', 'UserController@index');
         Route::get('{id}', 'UserController@show');
-        Route::delete('{id}', 'UserController@destroy');
+        Route::delete('{id}', 'UserController@destroy')->middleware('osa.user');
     });
 
     Route::prefix('events')->group(function() {

@@ -9,7 +9,7 @@ use Carbon\Carbon;
 
 $factory->define(Event::class, function (Faker $faker) {
     return [
-        'name' => $faker->name,
+        'name' => ucfirst($faker->word(6)) . " Event",
         'academic_year' => $faker->numberBetween(2015, 2019),
         'date_start' => Carbon::now(),
     ];

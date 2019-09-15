@@ -3,6 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Config;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class OsaUserMiddleware
 {
@@ -15,6 +17,13 @@ class OsaUserMiddleware
      */
     public function handle($request, Closure $next)
     {
+        $user = JWTAuth::parseToken()->authenticate();
+        if($user->role_id != Config::get('constants.roles.osa'))
+        {
+            return response()->json([
+                'status' => 'Access denied'
+            ]);
+        }
         return $next($request);
     }
 }

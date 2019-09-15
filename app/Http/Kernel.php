@@ -63,7 +63,7 @@ class Kernel extends HttpKernel
         'jwt.verify' => \App\Http\Middleware\JwtMiddleware::class,
         'org.user' => \App\Http\Middleware\OrgUserMiddleware::class,
         'socc.user' => \App\Http\Middleware\SoccUserMiddleware::class,
-        'osa.user' => \App\Http\Middleware\OsaMiddleware::class,
+        'osa.user' => \App\Http\Middleware\OsaUserMiddleware::class,
     ];
 
     /**

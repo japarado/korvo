@@ -21,7 +21,7 @@ class OrgUserMiddleware
         if($user->role_id != Config::get('constants.roles.organization'))
         {
             return response()->json([
-                'status' => 'This user type does not have access to this resource'
+                'status' => 'Access denied'
             ]);
         }
         return $next($request);
