@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Event;
+use App\User;
 use Illuminate\Support\Facades\Config;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -13,9 +14,22 @@ class EventController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return static::getCurrentUser();
+        $user = static::getCurrentUser();
+        $role_user = static::getUserRoleInstance();
+
+        /* $status = $request->input('status', null); */
+
+        /* if($status) */
+        /* { */
+        /*     $events = $role_user->events()->where('status', $status)->get(); */
+        /* } */
+
+        return response()->json([
+            'user' => $user,
+            'role_user' => $role_user,
+        ]);
     }
 
     /**
@@ -81,6 +95,11 @@ class EventController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $event = Event::find($id);
+        $event->delete();
+        return response()->json([
+            'message' => 'Deleted',
+            'event' => $event
+        ]);
     }
 }

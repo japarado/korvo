@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Organization;
 use App\SOCC;
 use App\OSA;
+use App\Speaker;
 
 class Event extends Model
 {
@@ -27,5 +28,10 @@ class Event extends Model
     public function osa()
     {
         return $this->belongsTo(OSA::class, 'osa_id', 'user_id');
+    }
+
+    public function speakers()
+    {
+        return $this->belongsToMany(Speaker::class);
     }
 }
