@@ -26,6 +26,8 @@ class CreateUsersTable extends Migration
             $table->timestamps();
             $table->bigInteger('role_id')->unsigned()->nullable();
 
+            $table->softDeletes();
+
             $table->foreign('role_id')->references('id')->on('role');
         });
     }
