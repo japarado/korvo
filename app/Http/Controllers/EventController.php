@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Event;
+use App\Http\Requests\CreateEvent;
 use App\User;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class EventController extends Controller
@@ -62,41 +62,20 @@ class EventController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateEvent $request)
     {
-        $rules = [
-            'name' => 'required',
-            'academic_year' => 'required',
-            'status' => [
-                'required',
-                'numeric',
-                Rule::in([
-                    Config::get('constants.event_status.draft'),
-                    Config::get('constants.event_status.socc_approval'),
-                ]),
-            ],
-            'date_start' => 'required|date'
-        ];
-        $validator = Validator::make($request->all(), $rules);
-        if($validator->fails())
-        {
-            return response()->json($validator->errors());
-        }
-        else 
-        {
-            $user = static::getCurrentUser();
-            $event = new Event();
-            $event->name = $request->get('name');
-            $event->academic_year = $request->get('academic_year');
-            $event->date_start = $request->get('date_start');
-            $event->status = $request->get('status');
-            $event->organization_id = $user->id;
-            $event->save();
+        $user = static::getCurrentUser();
+        $event = new Event();
+        $event->name = $request->get('name');
+        $event->academic_year = $request->get('academic_year');
+        $event->date_start = $request->get('date_start');
+        $event->status = $request->get('status');
+        $event->organization_id = $user->id;
+        $event->save();
 
-            return response()->json([
-                'event' => $event
-            ]);
-        }
+        return response()->json([
+            'event' => $event
+        ]);
     }
 
     /**
@@ -154,9 +133,20 @@ class EventController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CreateEvent $request, $id)
     {
-        //
+        $user = static::getCurrentUser();
+        $event = Event::find($id);
+        $event->name = $request->get('name');
+        $event->academic_year = $request->get('academic_year');
+        $event->date_start = $request->get('date_start');
+        $event->status = $request->get('status');
+        $event->organization_id = $user->id;
+        $event->save();
+
+        return response()->json([
+            'event' => $event
+        ]);
     }
 
     /**
@@ -173,5 +163,15 @@ class EventController extends Controller
             'message' => 'Deleted',
             'event' => $event
         ]);
+    }
+
+    public function approve($id)
+    {
+        echo $id;
+    }
+
+    public function reject(Request $request, $id)
+    {
+
     }
 }
