@@ -15,7 +15,12 @@ class CreateEventStudentTable extends Migration
     {
         Schema::create('event_student', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('event_id')->unsigned();
+            $table->bigInteger('student_id')->unsigned();
             $table->timestamps();
+
+            $table->foreign('event_id')->references('id')->on('event');
+            $table->foreign('student_id')->references('id')->on('student');
         });
     }
 
