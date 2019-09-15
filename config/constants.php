@@ -13,6 +13,7 @@ return [
         'osa_approval' => 3,
         'socc_rejection' => 4,
         'osa_rejection' => 5,
-        'archived' => 6
+        'archived' => 6,
+        'cleared' => 7
     ]
 ];

@@ -33,6 +33,11 @@ Route::group(['middleware' => ['jwt.verify']], function () {
         Route::get('{id}', 'EventController@show');
         Route::post('', 'EventController@store')->middleware('org.user');
         Route::put('{id}', 'EventController@update')->middleware('org.user', 'event.owner');
+
+        Route::group(['middleware' => ['event.inspectors']], function() {
+            Route::put('approve/{id}', 'EventController@approve');
+            Route::put('reject/{id}', 'EventController@reject');
+        });
     });
 
     Route::get('user', 'UserController@getAuthenticatedUser');

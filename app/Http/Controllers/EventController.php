@@ -165,13 +165,110 @@ class EventController extends Controller
         ]);
     }
 
-    public function approve($id)
+    public function approve(Request $request, $id)
     {
-        echo $id;
+        $user = static::getCurrentUser();
+        $event = Event::find($id);
+
+        if($event)
+        {
+            if($user->role_id == Config::get('constants.roles.socc'))
+            {
+                if(!in_array($event->status, [Config::get('constants.event_status.socc_approval'), Config::get('constants.event_status.osa_rejection')]))
+                {
+                    return response()->json([
+                        'status' => 'Error. That event has already been approved or is not yet ready for approval'
+                    ]);
+                }
+                else 
+                {
+                    $event->socc_id = $user->id;
+                    $event->status = Config::get('constants.event_status.osa_approval');
+                    $event->save();
+                    return response()->json([
+                        'event' => $event
+                    ]);
+                }
+            }
+            elseif($user->role_id == Config::get('constants.roles.osa'))
+            {
+                if($event->status != Config::get('constants.event_status.osa_approval'))
+                {
+                    return response()->json([
+                        'status' => 'Error. That event has already been approved or is not yet ready for approval'
+                    ]);
+                }
+                else 
+                {
+                    $event->osa_id = $user->id;
+                    $event->status = Config::get('constants.event_status.cleared');
+                    $event->save();
+                    return response()->json([
+                        'event' => $event
+                    ]);
+                }
+            }
+
+        }
+        else 
+        {
+            return response()->json([
+                'status' => 'Error. Event not found'
+            ]);
+        }
     }
 
     public function reject(Request $request, $id)
     {
+        $user = static::getCurrentUser();
+        $event = Event::find($id);
+
+        if($event)
+        {
+            if($user->role_id == Config::get('constants.roles.socc'))
+            {
+                if(!in_array($event->status, [Config::get('constants.event_status.socc_approval'), Config::get('constants.event_status.osa_rejection')]))
+                {
+                    return response()->json([
+                        'status' => 'Error. That event has already been rejected or is not yet ready for rejection'
+                    ]);
+                }
+                else 
+                {
+                    $event->socc_id = $user->id;
+                    $event->status = Config::get('constants.event_status.socc_rejection');
+                    $event->save();
+                    return response()->json([
+                        'event' => $event
+                    ]);
+                }
+            }
+            elseif($user->role_id == Config::get('constants.roles.osa'))
+            {
+                if($event->status != Config::get('constants.event_status.osa_approval'))
+                {
+                    return response()->json([
+                        'status' => 'Error. That event has already been rejected or is not yet ready for rejection'
+                    ]);
+                }
+                else 
+                {
+                    $event->osa_id = $user->id;
+                    $event->status = Config::get('constants.event_status.osa_rejection');
+                    $event->save();
+                    return response()->json([
+                        'event' => $event
+                    ]);
+                }
+            }
+
+        }
+        else 
+        {
+            return response()->json([
+                'status' => 'Error. Event not found'
+            ]);
+        }
 
     }
 }

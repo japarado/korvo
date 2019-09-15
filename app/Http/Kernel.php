@@ -65,6 +65,9 @@ class Kernel extends HttpKernel
         'socc.user' => \App\Http\Middleware\SoccUserMiddleware::class,
         'osa.user' => \App\Http\Middleware\OsaUserMiddleware::class,
         'event.owner' => \App\Http\Middleware\EventOwner::class,
+        'event.inspectors' => \App\Http\Middleware\EventInspectors::class,
+        'event.approve' => \App\Http\Middleware\App::class,
+        'event.reject' => \App\Http\Middleware\EventOwner::class,
     ];
 
     /**
