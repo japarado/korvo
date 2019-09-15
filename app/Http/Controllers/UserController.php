@@ -150,12 +150,21 @@ class UserController extends Controller
 
     public function index()
     {
-        $x = [];
-        $users = User::all()->each(function($user) use($x) { 
-            array_push($x, static::getUserRoleInstance($user));
+        $users = User::all()->each(function($user) { 
+            switch($user->role_id)
+            {
+            case Config::get('constants.roles.organization'):
+                $user->organization = $user->organization()->with('events')->get();
+                break;
+            case Config::get('constants.roles.socc'):
+                $user->socc = $user->socc()->with('events')->get();
+                break;
+            case Config::get('constants.roles.osa'):
+                $user->osa = $user->osa()->with('events')->get();
+                break;
+            }
         });
         return response()->json([
-            'x' => $x,
             'users' => $users
         ]);
     }
