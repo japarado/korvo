@@ -21,13 +21,32 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('register', 'UserController@register');
 Route::post('login', 'UserController@authenticate');
 Route::resource('users', 'UserController');
-
 Route::group(['middleware' => ['jwt.verify']], function () {
-    /* Route::resource('events', 'EventController'); */
+
+    Route::prefix('users')->group(function(){
+        Route::get('', 'UserController@index');
+        Route::get('{id}', 'UserController@show');
+        Route::delete('{id}', 'UserController@destroy');
+    });
+
     Route::prefix('events')->group(function() {
         Route::get('', 'EventController@index');
+        Route::get('{id}', 'EventController@show');
         Route::post('', 'EventController@store')->middleware('org.user');
     });
+
+    Route::get('user', 'UserController@getAuthenticatedUser');
+    Route::get('closed', 'DataController@closed');
+    Route::get('test', 'DataController@test');
+});
+
+
+/**
+ * Test routes beyond here, please heed no mind to them ^^
+ */
+
+Route::group(['middleware' => ['jwt.verify']], function () {
+
     Route::get('user', 'UserController@getAuthenticatedUser');
     Route::get('closed', 'DataController@closed');
     Route::get('test', 'DataController@test');
