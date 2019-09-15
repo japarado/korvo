@@ -15,7 +15,15 @@ class EventController extends Controller
      */
     public function index()
     {
-        return static::getCurrentUser();
+        $events = Event::all();
+        return response()->json([
+            'events' => $events,
+        ]);
+        /* $user = static::getCurrentUser(); */
+        /* if($user->role_id == Config::get('constants.roles.organization')) */
+        /* { */
+
+        /* } */
     }
 
     /**

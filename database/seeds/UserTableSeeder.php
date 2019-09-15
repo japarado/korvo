@@ -23,7 +23,7 @@ class UserTableSeeder extends Seeder
             'first_name' => 'OSA',
             'last_name' => 'User',
             'email' => 'osa@mail.com',
-            'password' => 'secret',
+            'password' => Hash::make('secret'),
             'role_id' => Config::get('constants.roles.osa')
         ]);
         
@@ -37,7 +37,7 @@ class UserTableSeeder extends Seeder
             'last_name' => 'One',
             'email' => 'org1@mail.com',
             'student_number' => 'STU1',
-            'password' => 'secret',
+            'password' => Hash::make('secret'),
             'role_id' => Config::get('constants.roles.organization')
         ]);
         $org_user_two = User::create([
@@ -45,7 +45,7 @@ class UserTableSeeder extends Seeder
             'last_name' => 'Two',
             'email' => 'org2@mail.com',
             'student_number' => 'STU2',
-            'password' => 'secret',
+            'password' => Hash::make('secret'),
             'role_id' => 1
         ]);
 
@@ -69,7 +69,7 @@ class UserTableSeeder extends Seeder
             'last_name' => 'One',
             'email' => 'socc1@mail.com',
             'student_number' => 'STU3',
-            'password' => 'secret',
+            'password' => Hash::make('secret'),
             'role_id' => Config::get('constants.roles.socc')
         ]);
         $socc_user_two = User::create([
@@ -77,7 +77,7 @@ class UserTableSeeder extends Seeder
             'last_name' => 'Two',
             'email' => 'socc2@mail.com',
             'student_number' => 'STU4',
-            'password' => 'secret',
+            'password' => Hash::make('secret'),
             'role_id' => Config::get('constants.roles.socc')
         ]);
 

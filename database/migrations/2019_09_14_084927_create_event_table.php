@@ -17,7 +17,7 @@ class CreateEventTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('academic_year');
-            $table->string('date_start');
+            $table->date('date_start');
             $table->text('notes');
             $table->bigInteger('organization_id')->unsigned()->unsigned();
             $table->bigInteger('socc_id')->unsigned()->nullable();
@@ -28,6 +28,8 @@ class CreateEventTable extends Migration
             $table->foreign('organization_id')->references('id')->on('users');
             $table->foreign('socc_id')->references('id')->on('users');
             $table->foreign('osa_id')->references('id')->on('users');
+
+            $table->softDeletes();
         });
     }
 
