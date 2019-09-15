@@ -15,12 +15,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        $user = static::getCurrentUser();
-        $role = static::getUserRoleInstance();
-        return response()->json([
-            'user' => $user,
-            'role_user' => $role,
-        ]);
+        return static::getCurrentUser();
     }
 
     /**

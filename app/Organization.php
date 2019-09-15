@@ -18,6 +18,6 @@ class Organization extends Model
 
     public function events()
     {
-        return $this->hasMany(Event::class, 'osa_id', 'user_id');
+        return $this->hasMany(Event::class, 'organization_id', 'user_id');
     }
 }

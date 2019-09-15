@@ -14,12 +14,12 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    protected function getCurrentUser()
+    protected static function getCurrentUser()
     {
         return JWTAuth::parseToken()->authenticate();
     }
 
-    protected function getUserRoleInstance()
+    protected static function getUserRoleInstance()
     {
         $user = JWTAuth::parseToken()->authenticate();
 
