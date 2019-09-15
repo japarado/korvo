@@ -172,10 +172,19 @@ class UserController extends Controller
     public function destroy($id)
     {
         $user = User::find($id);
-        $user->delete();
-        return response()->json([
-            'user' => $user
-        ]);
+        if($user)
+        {
+            $user->delete();
+            return response()->json([
+                'user' => $user
+            ]);
+        }
+        else 
+        {
+            return response()->json([
+                'status' => 'User not found'
+            ]);
+        }
     }
 
     // Helper Functions
