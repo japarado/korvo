@@ -14,13 +14,15 @@ class CreateEventSpeakerTable extends Migration
     public function up()
     {
         Schema::create('event_speaker', function (Blueprint $table) {
-            $table->bigIncrements('id');
             $table->bigInteger('event_id')->unsigned();
             $table->bigInteger('speaker_id')->unsigned();
             $table->timestamps();
 
+            $table->primary(['event_id', 'speaker_id']);
+
             $table->foreign('event_id')->references('id')->on('event');
             $table->foreign('speaker_id')->references('id')->on('speaker');
+
         });
     }
 
