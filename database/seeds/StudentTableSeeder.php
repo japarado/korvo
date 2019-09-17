@@ -13,14 +13,10 @@ class StudentTableSeeder extends Seeder
      */
     public function run()
     {
-        foreach(Event::all() as $event)
-        {
-            $students = factory(Student::class, 5)->create();
-            foreach($students as $student)
-            {
+        Event::all()->each(function($event) {
+            factory(Student::class, 5)->create()->each(function($student) use ($event) {
                 $event->students()->attach($student->id);
-                /* $student->save(); */
-            }
-        }
+            });
+        });
     }
 }
