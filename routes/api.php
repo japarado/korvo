@@ -28,6 +28,8 @@ Route::group(['middleware' => ['jwt.verify']], function () {
         Route::delete('{id}', 'UserController@destroy')->middleware('osa.user');
     });
 
+    Route::resource('students', 'StudentController');
+
     Route::prefix('events')->group(function() {
         Route::get('', 'EventController@index');
         Route::get('{id}', 'EventController@show');

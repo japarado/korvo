@@ -34,4 +34,9 @@ class Event extends Model
     {
         return $this->belongsToMany(Speaker::class);
     }
+
+    public function students()
+    {
+        return $this->belongsToMany(Student::class);
+    }
 }
