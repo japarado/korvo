@@ -245,6 +245,7 @@ class EventController extends Controller
                 {
                     $event->socc_id = $user->id;
                     $event->status = Config::get('constants.event_status.socc_rejection');
+                    $event->notes = $request->input('notes');
                     $event->save();
                     return response()->json([
                         'event' => $event
@@ -263,6 +264,7 @@ class EventController extends Controller
                 {
                     $event->osa_id = $user->id;
                     $event->status = Config::get('constants.event_status.osa_rejection');
+                    $event->notes = $request->input('notes');
                     $event->save();
                     return response()->json([
                         'event' => $event
