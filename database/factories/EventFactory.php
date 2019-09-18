@@ -12,5 +12,7 @@ $factory->define(Event::class, function (Faker $faker) {
         'name' => ucfirst($faker->word(6)) . " Event",
         'academic_year' => $faker->numberBetween(2015, 2019),
         'date_start' => Carbon::now(),
+        'created_at' => Carbon::now(),
+        'updated_at' => Carbon::now(),
     ];
 });

@@ -23,7 +23,7 @@ class EventController extends Controller
 
         if($user->role_id == Config::get('constants.roles.organization'))
         {
-            $events = $role_user->events;
+            $events = $role_user->events()->with('speakers')->with('students')->get();
         }
         elseif($user->role_id == Config::get('constants.roles.socc'))
         {
