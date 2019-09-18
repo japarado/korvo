@@ -160,6 +160,8 @@ class EventController extends Controller
         $event = Event::find($id);
         if($event)
         {
+            $event->status = Config::get('constants.event_status.archived');
+            $event->save();
             $event->delete();
             return response()->json([
                 'event' => $event
@@ -279,6 +281,13 @@ class EventController extends Controller
                 'status' => 'Error. Event not found'
             ]);
         }
+    }
 
+    public function archived()
+    {
+        $archived_events = Event::withTrashed()->get();
+        return response()->json([
+            'events' => $archived_events
+        ]);
     }
 }

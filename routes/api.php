@@ -33,6 +33,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::prefix('events')->group(function() {
         Route::get('', 'EventController@index');
         Route::get('{id}', 'EventController@show');
+        Route::get('archived', 'EventController@archived')->middleware('osa.user');
         Route::post('', 'EventController@store')->middleware('org.user');
         Route::put('{id}', 'EventController@update')->middleware('org.user', 'event.owner');
         Route::delete('{id}', 'EventController@destroy')->middleware('osa.user');
