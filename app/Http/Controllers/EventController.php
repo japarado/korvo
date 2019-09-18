@@ -285,7 +285,7 @@ class EventController extends Controller
 
     public function archived()
     {
-        $archived_events = Event::withTrashed()->get();
+        $archived_events = Event::onlyTrashed()->get();
         return response()->json([
             'events' => $archived_events
         ]);
