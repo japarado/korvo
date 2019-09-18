@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StudentRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class StudentRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +25,14 @@ class StudentRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'id' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
         ];
+    }
+
+    protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        throw new HttpResponseException(response()->json($validator->errors()));
     }
 }

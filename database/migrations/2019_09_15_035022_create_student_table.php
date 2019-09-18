@@ -17,7 +17,7 @@ class CreateStudentTable extends Migration
             $table->string('id')->primary();
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('middle_initial');
+            $table->string('middle_initial')->nullable();
             $table->timestamps();
 
         });

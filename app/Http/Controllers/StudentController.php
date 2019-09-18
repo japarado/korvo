@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StudentRequest;
 use App\Student;
 use Illuminate\Http\Request;
 
@@ -36,9 +37,17 @@ class StudentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StudentRequest $request)
     {
-        //
+        $student = Student::create([
+            'id' => $request->input('id'),
+            'first_name' => $request->input('first_name'),
+            'last_name' => $request->input('last_name'),
+            'middle_initial' => $request->input('middle_initial')
+        ]);
+        return response()->json([
+            'student' => $student
+        ]);
     }
 
     /**

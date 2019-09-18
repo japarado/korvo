@@ -28,7 +28,10 @@ Route::group(['middleware' => ['jwt.verify']], function () {
         Route::delete('{id}', 'UserController@destroy')->middleware('osa.user');
     });
 
-    Route::resource('students', 'StudentController');
+    Route::prefix('students')->group(function() {
+        Route::get('', 'StudentController@index');
+        Route::post('', 'StudentController@store')->middleware('osa.user');
+    });
 
     Route::prefix('events')->group(function() {
         Route::get('archived', 'EventController@archived')->middleware('osa.user');
