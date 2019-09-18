@@ -91,8 +91,8 @@ class EventController extends Controller
         $role_user = static::getUserRoleInstance();
         if($user->role_id == Config::get('constants.roles.organization'))
         {
-            /* $event = $role_user->events()->find($id)->with('speakers')->with('students')->get(); */
-            $event = $role_user->events()->find($id);
+            $event = $role_user->events()->find($id)->with('speakers')->with('students')->get();
+            /* $event = $role_user->events()->find($id); */
         }
         elseif($user->role_id == Config::get('constants.roles.socc'))
         {
