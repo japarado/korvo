@@ -40,7 +40,14 @@ class StudentController extends Controller
      */
     public function store(StudentRequest $request)
     {
-        try
+        $student = Student::find($request->input('id'));
+        if(Student::find($request->input('id')))
+        {
+            return response()->json([
+                'error' => "Student with the ID {$request->input('id')} already exists"
+            ]);
+        }
+        else 
         {
             $student = Student::create([
                 'id' => $request->input('id'),
@@ -52,10 +59,7 @@ class StudentController extends Controller
                 'student' => $student
             ]);
         }
-        catch(QueryException $e)
-        {
-            dd($e->getMessage());
-        }
+
     }
 
     /**
