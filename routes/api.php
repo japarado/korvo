@@ -30,7 +30,8 @@ Route::group(['middleware' => ['jwt.verify']], function () {
 
     Route::prefix('students')->group(function() {
         Route::get('', 'StudentController@index');
-        Route::post('', 'StudentController@store')->middleware('osa.user');
+        Route::get('{id}', 'StudentController@show');
+        Route::post('', 'StudentController@store')->middleware('org.user');
     });
 
     Route::prefix('events')->group(function() {

@@ -14,7 +14,7 @@ class StudentTableSeeder extends Seeder
     public function run()
     {
         Event::all()->each(function($event) {
-            factory(Student::class, 5)->create()->each(function($student) use ($event) {
+            factory(Student::class, 10)->create()->each(function($student) use ($event) {
                 $event->students()->attach($student->id);
             });
         });
