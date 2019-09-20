@@ -22,6 +22,8 @@ Route::post('register', 'UserController@register');
 Route::post('login', 'UserController@authenticate');
 Route::group(['middleware' => ['jwt.verify']], function () {
 
+    Route::resource('speakers', 'SpeakerController')->middleware('org.user');
+
     Route::prefix('users')->group(function(){
         Route::get('', 'UserController@index');
         Route::get('{id}', 'UserController@show');
@@ -34,11 +36,6 @@ Route::group(['middleware' => ['jwt.verify']], function () {
         Route::put('{id}', 'StudentController@update');
         Route::post('', 'StudentController@store')->middleware('org.user');
         Route::post('{student_id}/events/{event_id}', 'StudentController@assignToEvent')->middleware('org.user');
-    });
-
-    Route::prefix('speakers')->group(function() {
-        Route::get('', 'SpeakerController@index');
-        Route::get('{id}', 'SpeakerController@show');
     });
 
     Route::prefix('events')->group(function() {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SpeakerRequest;
 use App\Speaker;
 use Illuminate\Http\Request;
 
@@ -27,7 +28,7 @@ class SpeakerController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -36,9 +37,16 @@ class SpeakerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SpeakerRequest $request)
     {
-        //
+        $speaker = Speaker::create([
+            'first_name' => $request->input('first_name'),
+            'last_name' => $request->input('last_name'),
+            'description' => $request->input('description'),
+        ]);
+        return response()->json([
+            'speaker' => $speaker
+        ]);
     }
 
     /**

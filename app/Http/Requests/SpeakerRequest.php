@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
 
-class StudentRequest extends FormRequest
+class SpeakerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,7 +27,7 @@ class StudentRequest extends FormRequest
     {
         return [
             'first_name' => 'required',
-            'last_name' => 'required',
+            'last_name' => 'required'
         ];
     }
 
