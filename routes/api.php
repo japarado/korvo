@@ -59,7 +59,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
 
 
 /**
- * Test routes beyond here, please heed them no mind
+ * Test routes beyond here, please heed them no mind ^^
  */
 
 Route::group(['middleware' => ['jwt.verify']], function () {
