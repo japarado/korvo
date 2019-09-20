@@ -344,19 +344,18 @@ class EventController extends Controller
 
         if($event && $speaker)
         {
-            if($event->students()->where('id', $student_id)->where('event_id', $event_id)->get()->count())
+            if($event->speakers()->where('speaker.id', $speaker_id)->get()->count())
             {
                 return response()->json([
-                    'error' => "Event with ID of $event_id already has a student with and ID of $student_id"
+                    'error' => "Event with ID of $event_id already has a speaker with an ID of $speaker_id"
                 ]);
             }
             else 
             {
-                $event->students()->attach($student_id, ['involvement' => $request->input('involvement')]);
+                $event->speakers()->attach($speaker_id);
                 return response()->json([
-                    'student' => Student::find($student_id),
+                    'speaker' => Student::find($speaker_id),
                     'event' => Event::find($event_id),
-                    'involvement' => $request->input('involvement'),
                 ]);
             }
         }
