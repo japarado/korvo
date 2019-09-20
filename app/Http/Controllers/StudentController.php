@@ -135,7 +135,7 @@ class StudentController extends Controller
 
         if($student && $event)
         {
-            if($student->events()->where('event_id', $event_id)->where('student_id', $student_id)->get()->count())
+            if($student->events()->where('event.id', $event_id)->get()->count())
             {
                 return response()->json([
                     'error' => "Student with ID of $student_id has already been registered to event with ID of $event_id"
