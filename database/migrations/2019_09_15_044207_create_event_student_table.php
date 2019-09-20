@@ -16,7 +16,8 @@ class CreateEventStudentTable extends Migration
         Schema::create('event_student', function (Blueprint $table) {
 
             $table->bigInteger('event_id')->unsigned();
-            $table->string('student_id');
+            $table->bigInteger('student_id')->unsigned();
+            $table->string('involvement')->nullable();
             $table->timestamps();
 
             $table->primary(['event_id', 'student_id']);

@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Event;
 use App\Http\Requests\CreateEvent;
 use App\User;
+use App\Student;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -125,7 +126,6 @@ class EventController extends Controller
      */
     public function edit($id)
     {
-        //
     }
 
     /**
@@ -172,7 +172,7 @@ class EventController extends Controller
         else 
         {
             return response()->json([
-                'status' => 'Event not found'
+                'error' => 'Event not found'
             ]);
         }
     }
@@ -189,7 +189,7 @@ class EventController extends Controller
                 if(!in_array($event->status, [Config::get('constants.event_status.socc_approval'), Config::get('constants.event_status.osa_rejection')]))
                 {
                     return response()->json([
-                        'status' => 'Error. That event has already been approved or is not yet ready for approval'
+                        'error' => 'Error. That event has already been approved or is not yet ready for approval'
                     ]);
                 }
                 else 
@@ -207,7 +207,7 @@ class EventController extends Controller
                 if($event->status != Config::get('constants.event_status.osa_approval'))
                 {
                     return response()->json([
-                        'status' => 'Error. That event has already been approved or is not yet ready for approval'
+                        'error' => 'Error. That event has already been approved or is not yet ready for approval'
                     ]);
                 }
                 else 
@@ -225,7 +225,7 @@ class EventController extends Controller
         else 
         {
             return response()->json([
-                'status' => 'Error. Event not found'
+                'error' => 'Event not found'
             ]);
         }
     }
@@ -242,7 +242,7 @@ class EventController extends Controller
                 if(!in_array($event->status, [Config::get('constants.event_status.socc_approval'), Config::get('constants.event_status.osa_rejection')]))
                 {
                     return response()->json([
-                        'status' => 'Error. That event has already been rejected or is not yet ready for rejection'
+                        'error' => 'That event has already been rejected or is not yet ready for rejection'
                     ]);
                 }
                 else 
@@ -261,7 +261,7 @@ class EventController extends Controller
                 if($event->status != Config::get('constants.event_status.osa_approval'))
                 {
                     return response()->json([
-                        'status' => 'Error. That event has already been rejected or is not yet ready for rejection'
+                        'error' => 'That event has already been rejected or is not yet ready for rejection'
                     ]);
                 }
                 else 
@@ -280,7 +280,7 @@ class EventController extends Controller
         else 
         {
             return response()->json([
-                'status' => 'Error. Event not found'
+                'error' => 'Event not found'
             ]);
         }
     }
@@ -290,6 +290,56 @@ class EventController extends Controller
         $archived_events = Event::onlyTrashed()->get();
         return response()->json([
             'events' => $archived_events
+        ]);
+    }
+
+    public function addStudent(Request $request, $event_id, $student_id)
+    {
+        $student = Student::find($student_id);
+        $event = Event::find($event_id);
+
+        if($event && $student)
+        {
+            if($event->students()->where('id', $student_id)->where('event_id', $event_id)->get()->count())
+            {
+                return response()->json([
+                    'error' => "Event with ID of $event_id already has a student with and ID of $student_id"
+                ]);
+            }
+            else 
+            {
+                $event->students()->attach($student_id, ['involvement' => $request->input('involvement')]);
+                return response()->json([
+                    'student' => Student::find($student_id),
+                    'event' => Event::find($event_id),
+                    'involvement' => $request->input('involvement'),
+                ]);
+            }
+        }
+        else 
+        {
+            $errors = [];
+            if(!$student)
+            {
+                array_push($errors, "Student with ID of $student_id not found");
+            }
+            if(!$event)
+            {
+                array_push($errors, "Event with ID of $event_id not found");
+            }
+            if($errors)
+            {
+                return response()->json([
+                    'errors' => $errors
+                ]);
+            }
+        }
+    }
+
+    public function addSpeaker($event_id, $speaker_id)
+    {
+        return response()->json([
+            'message' => 'rawr'
         ]);
     }
 }

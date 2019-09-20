@@ -8,10 +8,9 @@ use App\Event;
 class Student extends Model
 {
     protected $table = 'student';
-    public $incrementing = false;
 
     public $fillable = [
-        'id',
+        'student_id',
         'last_name',
         'first_name',
         'middle_initial'
