@@ -47,7 +47,6 @@ Route::group(['middleware' => ['jwt.verify']], function () {
         Route::get('{id}', 'EventController@show');
         Route::put('{id}', 'EventController@update')->middleware('org.user', 'event.owner');
         Route::post('', 'EventController@store')->middleware('org.user');
-
         Route::post('{event_id}/students/{student_id}', 'EventController@addStudent')->middleware('org.user');
         Route::post('{event_id}/speakers/{speaker_id}', 'EventController@addSpeaker')->middleware('org.user');
         Route::delete('{event_id}/students/{student_id}', 'EventController@removeStudent')->middleware('org.user');
