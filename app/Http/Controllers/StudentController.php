@@ -71,7 +71,7 @@ class StudentController extends Controller
      */
     public function show($id)
     {
-        $student = Student::find($id)->with('events')->get();
+        $student = Student::where('id', $id)->with('events')->first();
         return response()->json([
             'student' => $student
         ]);
@@ -212,8 +212,8 @@ class StudentController extends Controller
         }
     }
 
-    public function generatePdf(Request $request)
+    public function generateReport(Request $request)
     {
-        return response()->json($request->all());
+
     }
 }

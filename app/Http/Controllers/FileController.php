@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\StudentEventReportMail;
+use App\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use PDF;
 
 class FileController extends Controller
@@ -12,12 +15,34 @@ class FileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($student_id)
     {
-        $data = ['title' => 'Welcome'];
-        $pdf = PdF::loadView('myPDF', $data);
-
-        return $pdf->download('sample_pdf_laravel.pdf');
+        /* return view('student.student-event-report'); */
+        try 
+        {
+            Mail::to('icypam@mailinator.com')->send(new StudentEventReportMail());
+        }
+        catch(Exception $e)
+        {
+            report($e);
+            return false;
+        }
+        $student = Student::where('id', $student_id)->with(['events', 'events.organization'])->first();
+        if($student)
+        {
+            $context = [
+                'student' => $student
+            ];
+            return view('student.student-event-report')->with($context);
+            $pdf = PDF::loadView('student.student-event-report');
+            return $pdf->download('sample_pdf_laravel.pdf');
+        }
+        else 
+        {
+            return response()->json([
+                'error' => "Student with an ID of $student_id not found"
+            ]);
+        }
     }
 
     /**
