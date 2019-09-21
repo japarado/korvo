@@ -17,25 +17,16 @@ class FileController extends Controller
      */
     public function index($student_id)
     {
-        /* return view('student.student-event-report'); */
-        try 
-        {
-            Mail::to('icypam@mailinator.com')->send(new StudentEventReportMail());
-        }
-        catch(Exception $e)
-        {
-            report($e);
-            return false;
-        }
         $student = Student::where('id', $student_id)->with(['events', 'events.organization'])->first();
+        $context = [
+            'student' => $student
+        ];
         if($student)
         {
-            $context = [
-                'student' => $student
-            ];
+            $pdf = PDF::loadView('student.student-event-report', $context);
+            /* return $pdf->download('sample_pdf_laravel.pdf'); */
+            Mail::to('fishbonesandzap@gmail.com')->send(new StudentEventReportMail($student, $pdf));
             return view('student.student-event-report')->with($context);
-            $pdf = PDF::loadView('student.student-event-report');
-            return $pdf->download('sample_pdf_laravel.pdf');
         }
         else 
         {
