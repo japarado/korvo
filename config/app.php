@@ -106,7 +106,7 @@ return [
     |
     */
 
-    'faker_locale' => 'en_US',
+    'faker_locale' => 'en_PH',
 
     /*
     |--------------------------------------------------------------------------
@@ -177,6 +177,7 @@ return [
 
         // Third party packages
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
 
     ],
 
@@ -231,6 +232,7 @@ return [
 
 		'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class, 
 		'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
 
 ];

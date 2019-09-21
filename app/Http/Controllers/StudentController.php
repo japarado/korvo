@@ -211,4 +211,9 @@ class StudentController extends Controller
             }
         }
     }
+
+    public function generatePdf(Request $request)
+    {
+        return response()->json($request->all());
+    }
 }
