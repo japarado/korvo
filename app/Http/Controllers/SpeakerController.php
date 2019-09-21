@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SpeakerRequest;
 use App\Speaker;
+use App\Event;
 use Illuminate\Http\Request;
 
 class SpeakerController extends Controller
@@ -81,9 +82,26 @@ class SpeakerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(SpeakerRequest $request, $id)
     {
-        //
+        $speaker = Speaker::find($id);
+        if($speaker)
+        {
+            $speaker->first_name = $request->input('first_name');
+            $speaker->last_name = $request->input('last_name');
+            $speaker->description = $request->input('description');
+            $speaker->save();
+
+            return response()->json([
+                'speaker' => $speaker
+            ]);
+        }
+        else 
+        {
+            return response()->json([
+                'error' => "Speaker with an ID of $id not found"
+            ]);
+        }
     }
 
     /**
@@ -94,6 +112,103 @@ class SpeakerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $speaker = Speaker::find($id);
+        if($speaker)
+        {
+            $speaker->destroy();
+            return response()->json([
+                'speaker' => $speaker
+            ]);
+        }
+        else 
+        {
+            return response()->json([
+                'error' => "Speaker with an ID of $id not found"
+            ]);
+        }
+    }
+
+    public function assignToEvent($speaker_id, $event_id)
+    {
+        $speaker = Speaker::find($speaker_id);
+        $event = Event::find($event_id);
+
+        if($speaker && $event)
+        {
+            if($speaker->events()->where('event.id', $event_id)->get()->count())
+            {
+                return response()->json([
+                    'error' => "Speaker with ID of $speaker_id has already been registered to event with ID of $event_id"
+                ]);
+            }
+            else 
+            {
+                $speaker->events()->attach($event_id);
+                return response()->json([
+                    'speaker' => Speaker::find($speaker_id),
+                    'event' => Event::find($event_id),
+                ]);
+            }
+        }
+        else 
+        {
+            $errors = [];
+            if(!$speaker)
+            {
+                array_push($errors, "Speaker with ID of $speaker_id not found");
+            }
+            if(!$event)
+            {
+                array_push($errors, "Event with ID of $event_id not found");
+            }
+            if($errors)
+            {
+                return response()->json([
+                    'errors' => $errors
+                ]);
+            }
+        }
+    }
+
+    public function removeFromEvent($speaker_id, $event_id)
+    {
+        $speaker = Speaker::find($speaker_id);
+        $event = Event::find($event_id);
+
+        if($speaker && $event)
+        {
+            if(!$speaker->events()->where('event.id', $event_id)->get()->count())
+            {
+                return response()->json([
+                    'error' => "Speaker with an ID of $speaker_id is currently not associated with the event with an ID of $event_id"
+                ]);
+            }
+            else 
+            {
+                $speaker->events()->detach($event_id);
+                return response()->json([
+                    'speaker' => Speaker::find($speaker_id),
+                    'event' => Event::find($event_id),
+                ]);
+            }
+        }
+        else 
+        {
+            $errors = [];
+            if(!$speaker)
+            {
+                array_push($errors, "Speaker with ID of $speaker_id not found");
+            }
+            if(!$event)
+            {
+                array_push($errors, "Event with ID of $event_id not found");
+            }
+            if($errors)
+            {
+                return response()->json([
+                    'errors' => $errors
+                ]);
+            }
+        }
     }
 }

@@ -5,11 +5,8 @@ use Illuminate\Http\Request;
 use App\Event;
 use App\Http\Requests\CreateEvent;
 use App\Speaker;
-use App\User;
 use App\Student;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Validator;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class EventController extends Controller
 {
@@ -337,6 +334,48 @@ class EventController extends Controller
         }
     }
 
+    public function removeStudent($event_id, $student_id)
+    {
+        $student = Student::find($student_id);
+        $event = Event::find($event_id);
+
+        if($event && $student)
+        {
+            if(!$event->students()->where('student.id', $student_id)->get()->count())
+            {
+                return response()->json([
+                    'error' => "Student with an ID of $student_id is currently not associated with the event with an ID of $event_id"
+                ]);
+            }
+            else 
+            {
+                $event->students()->detach($student_id);
+                return response()->json([
+                    'student' => Student::find($student_id),
+                    'event' => Event::find($event_id),
+                ]);
+            }
+        }
+        else 
+        {
+            $errors = [];
+            if(!$student)
+            {
+                array_push($errors, "Student with ID of $student_id not found");
+            }
+            if(!$event)
+            {
+                array_push($errors, "Event with ID of $event_id not found");
+            }
+            if($errors)
+            {
+                return response()->json([
+                    'errors' => $errors
+                ]);
+            }
+        }
+    }
+
     public function addSpeaker($event_id, $speaker_id)
     {
         $speaker = Speaker::find($speaker_id);
@@ -359,23 +398,65 @@ class EventController extends Controller
                 ]);
             }
         }
-        /* else */ 
-        /* { */
-        /*     $errors = []; */
-        /*     if(!$student) */
-        /*     { */
-        /*         array_push($errors, "Student with ID of $student_id not found"); */
-        /*     } */
-        /*     if(!$event) */
-        /*     { */
-        /*         array_push($errors, "Event with ID of $event_id not found"); */
-        /*     } */
-        /*     if($errors) */
-        /*     { */
-        /*         return response()->json([ */
-        /*             'errors' => $errors */
-        /*         ]); */
-        /*     } */
-        /* } */
+        else 
+        {
+            $errors = [];
+            if(!$speaker)
+            {
+                array_push($errors, "Speaker with ID of $speaker_id not found");
+            }
+            if(!$event)
+            {
+                array_push($errors, "Event with ID of $event_id not found");
+            }
+            if($errors)
+            {
+                return response()->json([
+                    'errors' => $errors
+                ]);
+            }
+        }
+    }
+
+    public function removeSpeaker($event_id, $speaker_id)
+    {
+        $speaker = Speaker::find($speaker_id);
+        $event = Event::find($event_id);
+
+        if($event && $speaker)
+        {
+            if(!$event->speakers()->where('speaker.id', $speaker_id)->get()->count())
+            {
+                return response()->json([
+                    'error' => "Speaker with an ID of $speaker_id is currently not associated with the event with an ID of $event_id"
+                ]);
+            }
+            else 
+            {
+                $event->speakers()->detach($speaker_id);
+                return response()->json([
+                    'speaker' => Speaker::find($speaker_id),
+                    'event' => Event::find($event_id),
+                ]);
+            }
+        }
+        else 
+        {
+            $errors = [];
+            if(!$speaker)
+            {
+                array_push($errors, "Speaker with ID of $speaker_id not found");
+            }
+            if(!$event)
+            {
+                array_push($errors, "Event with ID of $event_id not found");
+            }
+            if($errors)
+            {
+                return response()->json([
+                    'errors' => $errors
+                ]);
+            }
+        }
     }
 }
