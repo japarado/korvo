@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use PDF;
 use App\Event;
 use App\Http\Requests\StudentRequest;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\StudentEventReportMail;
 use App\Student;
-use Illuminate\Database\QueryException;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -212,8 +215,41 @@ class StudentController extends Controller
         }
     }
 
-    public function generateReport(Request $request)
+    public function generateReport(Request $request, $id)
     {
-
+        $student = Student::find($id);
+        if($student)
+        {
+            if($request->input('mail') == true)
+            {
+                if($request->input('recipient'))
+                {
+                    $context = [
+                        'student' => Student::where('id', $id)->with(['events', 'events.organization'])->first(),
+                    ];
+                    $pdf = PDF::loadView('student.student-event-report', $context);
+                    Mail::to($request->input('recipient'))->send(new StudentEventReportMail($student, $pdf));
+                    /* Mail::to($request->input('recipient'))->send(new StudentEventReportMail($student, $pdf))->later(200); */
+                    return $pdf->download(strtoupper($student->last_name) . ", " . strtoupper($student->first_name) . " " . Carbon::now()->toDateString() . ".pdf");
+                }
+                else 
+                {
+                    return response()->json([
+                        'error' => "The send mail action was specified without a entering a recipient email address"
+                    ]);
+                }
+            }
+            return response()->json([
+                'student' => $student,
+                'send_email' => $request->input('mail'),
+                'recipient' => $request->input('recipient'),
+            ]);
+        }
+        else 
+        {
+            return response()->json([
+                'error' => "Student with ID of $id not found"
+            ]);
+        }
     }
 }

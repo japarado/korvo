@@ -36,6 +36,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::prefix('students')->group(function() {
         Route::get('', 'StudentController@index');
         Route::get('{id}', 'StudentController@show');
+        Route::get('{id}/generate-report', 'StudentController@generateReport');
         Route::put('{id}', 'StudentController@update');
         Route::post('', 'StudentController@store')->middleware('org.user');
         Route::post('{student_id}/events/{event_id}', 'StudentController@assignToEvent')->middleware('org.user');

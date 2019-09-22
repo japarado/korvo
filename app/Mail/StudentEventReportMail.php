@@ -30,7 +30,8 @@ class StudentEventReportMail extends Mailable
      */
     public function build()
     {
-        return $this->view('student.student-event-report')
+        return $this
+            ->view('student.student-event-report')
                     ->with([
                         'student' => $this->student,
                     ])
