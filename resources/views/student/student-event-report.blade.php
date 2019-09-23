@@ -100,9 +100,17 @@
                 </section>
 
                 <section id="seal">
-                    <div class="row flex-row-reverse">
-                        <div class="col-md-12 flex-row-reverse">
-                            <h4>Name of Officer</h4>
+                    <div class="row text-right">
+                        <div class="col-md-12 ml-auto">
+                            <h4>{{ $osa->user->first_name }} {{ $osa->user->last_name }}</h4>
+                            <p>Officer-in-Charge for Student Activities</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p>Rm. 212 UST Tan Yan Kee Student Center</p>
+                            <p>University of Santo Tomas, Espana Boulevard</p>
+                            <p>Manila, 1015 PHILIPPINES</p>
                         </div>
                     </div>
                 </section>

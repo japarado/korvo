@@ -7,9 +7,11 @@ use App\Event;
 use App\Http\Requests\StudentRequest;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\StudentEventReportMail;
+use App\OSA;
 use App\Student;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 
 class StudentController extends Controller
 {
@@ -218,10 +220,17 @@ class StudentController extends Controller
     public function generateReport(Request $request, $id)
     {
         $student = Student::find($id);
-                    $context = [
-                        'student' => Student::where('id', $id)->with(['events', 'events.organization'])->first(),
-                    ];
-                    return view('student.student-event-report')->with($context);
+        $context = [
+            'student' => Student::with(['events' => function($query) {
+                $query->where('status', Config::get('constants.event_status.cleared'));
+            }, 
+            'events.organization',
+            ])
+                ->where('student.id', $id)
+                ->first(),
+            'osa' => OSA::with('user')->first()
+        ];
+        return view('student.student-event-report')->with($context);
         if($student)
         {
             if($request->input('mail') == true)
@@ -231,7 +240,7 @@ class StudentController extends Controller
                     $context = [
                         'student' => Student::where('id', $id)->with(['events', 'events.organization'])->first(),
                     ];
-                    return view('student.student-event-report')->with($context);
+                    /* return view('student.student-event-report')->with($context); */
                     $pdf = PDF::loadView('student.student-event-report', $context);
                     Mail::to($request->input('recipient'))->send(new StudentEventReportMail($student, $pdf));
                     /* Mail::to($request->input('recipient'))->send(new StudentEventReportMail($student, $pdf))->later(200); */
