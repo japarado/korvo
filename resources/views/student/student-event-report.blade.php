@@ -91,6 +91,22 @@
                     @endforeach
                 </section>
 
+                <section id="eventCount">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p>Total number of attended activities: {{ count($student->events) }}</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="seal">
+                    <div class="row flex-row-reverse">
+                        <div class="col-md-12 flex-row-reverse">
+                            <h4>Name of Officer</h4>
+                        </div>
+                    </div>
+                </section>
+
             </main>
 
         </div>

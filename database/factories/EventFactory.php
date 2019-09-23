@@ -8,10 +8,12 @@ use Faker\Generator as Faker;
 use Carbon\Carbon;
 
 $factory->define(Event::class, function (Faker $faker) {
+    $classification = ['Seminar', 'Workshop'];
     return [
         'name' => ucfirst($faker->word(6)) . " Event",
         'description' => implode($faker->sentences()),
         'academic_year' => $faker->numberBetween(2015, 2019),
+        'classification' => $classification[array_rand($classification)],
         'date_start' => Carbon::now(),
         'created_at' => Carbon::now(),
         'updated_at' => Carbon::now(),

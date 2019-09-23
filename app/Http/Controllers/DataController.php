@@ -8,11 +8,20 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class DataController extends Controller
 {
+    private $number = 12;
+
+    public function sample()
+    {
+        return $this->number;
+    }
+
     public function open()
     {
         $data = "This data is open and can be accessed without the client 
             being authenticated";
-        return response()->json(compact('data'), 200);
+        return response()->json([
+            'number' => static::sample()
+        ]);
     }
 
     public function closed()

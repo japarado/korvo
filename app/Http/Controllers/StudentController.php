@@ -218,6 +218,10 @@ class StudentController extends Controller
     public function generateReport(Request $request, $id)
     {
         $student = Student::find($id);
+                    $context = [
+                        'student' => Student::where('id', $id)->with(['events', 'events.organization'])->first(),
+                    ];
+                    return view('student.student-event-report')->with($context);
         if($student)
         {
             if($request->input('mail') == true)
@@ -227,6 +231,7 @@ class StudentController extends Controller
                     $context = [
                         'student' => Student::where('id', $id)->with(['events', 'events.organization'])->first(),
                     ];
+                    return view('student.student-event-report')->with($context);
                     $pdf = PDF::loadView('student.student-event-report', $context);
                     Mail::to($request->input('recipient'))->send(new StudentEventReportMail($student, $pdf));
                     /* Mail::to($request->input('recipient'))->send(new StudentEventReportMail($student, $pdf))->later(200); */
