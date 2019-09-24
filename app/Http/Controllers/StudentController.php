@@ -240,7 +240,7 @@ class StudentController extends Controller
                 {
                     $pdf = PDF::loadView('student.student-event-report', $context);
                     Mail::to($request->input('recipient'))->send(new StudentEventReportMail($student, $pdf, $osa));
-                    return $pdf->stream(strtoupper($student->last_name) . ", " . strtoupper($student->first_name) . " " . Carbon::now()->toDateString() . ".pdf");
+                    return $pdf->download(strtoupper($student->last_name) . ", " . strtoupper($student->first_name) . " " . Carbon::now()->toDateString() . ".pdf");
                 }
                 else 
                 {

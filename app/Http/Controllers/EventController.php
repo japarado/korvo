@@ -15,7 +15,7 @@ class EventController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = static::getCurrentUser();
         $role_user = static::getUserRoleInstance();
@@ -34,10 +34,17 @@ class EventController extends Controller
         }
         elseif($user->role_id == Config::get('constants.roles.osa'))
         {
-            $events = Event::whereIn('status', [
-                Config::get('constants.event_status.osa_approval'),
-                Config::get('constants.event_status.archived'),
-            ])->get();
+            if($request->input('all') == true)
+            {
+                $events = Event::all();
+            }
+            else 
+            {
+                $events = Event::whereIn('status', [
+                    Config::get('constants.event_status.osa_approval'),
+                    Config::get('constants.event_status.archived'),
+                ])->get();
+            }
         }
 
         return response()->json([
