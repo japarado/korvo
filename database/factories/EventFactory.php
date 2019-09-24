@@ -15,7 +15,7 @@ $factory->define(Event::class, function (Faker $faker) {
         'description' => implode($faker->sentences()),
         'academic_year' => $faker->numberBetween(2015, 2019),
         'classification' => $classification[array_rand($classification)],
-        'status' => Config::get('constants.event_status.cleared'),
+        'status' => Config::get('constants.event_status.draft'),
         'date_start' => Carbon::now(),
         'created_at' => Carbon::now(),
         'updated_at' => Carbon::now(),

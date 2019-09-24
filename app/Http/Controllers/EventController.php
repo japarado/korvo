@@ -66,10 +66,11 @@ class EventController extends Controller
     {
         $user = static::getCurrentUser();
         $event = new Event();
-        $event->name = $request->get('name');
-        $event->academic_year = $request->get('academic_year');
-        $event->date_start = $request->get('date_start');
-        $event->status = $request->get('status');
+        $event->name = $request->input('name');
+        $event->academic_year = $request->input('academic_year');
+        $event->date_start = $request->input('date_start');
+        $event->status = $request->input('status');
+        $event->classification = $request->input('classification');
         $event->organization_id = $user->id;
         $event->save();
 
@@ -137,16 +138,38 @@ class EventController extends Controller
     {
         $user = static::getCurrentUser();
         $event = Event::find($id);
-        $event->name = $request->get('name');
-        $event->academic_year = $request->get('academic_year');
-        $event->date_start = $request->get('date_start');
-        $event->status = $request->get('status');
-        $event->organization_id = $user->id;
-        $event->save();
 
-        return response()->json([
-            'event' => $event
-        ]);
+        if(!in_array($event->status, [Config::get('constants.event_status.draft'), Config::get('constants.event_status.socc_rejection')]))
+        {
+            return response()->json([
+                'error' => 'The status of the event no longer allows updates'
+            ]);
+        }
+        elseif(!in_array($request->input('status'), [
+            Config::get('constants.event_status.draft'),
+            Config::get('constants.event_status.socc_approval'),
+            Config::get('constants.event_status.socc_rejection')
+        ]))
+        {
+            // Prevent them from updating the status to an unallowed status code (e.g. setting it to cleared)
+            return response()->json([
+                'error' => 'Invalid status code'
+            ]);
+        }
+        else 
+        {
+            $event->name = $request->input('name');
+            $event->academic_year = $request->input('academic_year');
+            $event->date_start = $request->input('date_start');
+            $event->status = $request->input('status');
+            $event->classification = $request->input('classification');
+            $event->organization_id = $user->id;
+            $event->save();
+
+            return response()->json([
+                'event' => $event
+            ]);
+        }
     }
 
     /**

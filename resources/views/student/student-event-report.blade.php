@@ -91,7 +91,7 @@
                     @endforeach
                 </section>
 
-                <section id="eventCount">
+                <section id="eventCount" >
                     <div class="row">
                         <div class="col-md-6">
                             <p>Total number of attended activities: {{ count($student->events) }}</p>
@@ -101,16 +101,16 @@
 
                 <section id="seal">
                     <div class="row text-right">
-                        <div class="col-md-12 ml-auto">
+                        <div class="col-md-12">
                             <h4>{{ $osa->user->first_name }} {{ $osa->user->last_name }}</h4>
                             <p>Officer-in-Charge for Student Activities</p>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <p>Rm. 212 UST Tan Yan Kee Student Center</p>
-                            <p>University of Santo Tomas, Espana Boulevard</p>
-                            <p>Manila, 1015 PHILIPPINES</p>
+                            Rm. 212 UST Tan Yan Kee Student Center <br/>
+                            University of Santo Tomas, Espana Boulevard <br/>
+                            Manila, 1015 PHILIPPINES <br/>
                         </div>
                     </div>
                 </section>

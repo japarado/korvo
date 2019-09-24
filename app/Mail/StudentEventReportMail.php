@@ -16,10 +16,11 @@ class StudentEventReportMail extends Mailable
      *
      * @return void
      */
-    public function __construct($student, $pdf)
+    public function __construct($student, $pdf, $osa)
     {
         $this->student = $student;
         $this->pdf = $pdf;
+        $this->osa = $osa;
     }
 
 
@@ -34,6 +35,7 @@ class StudentEventReportMail extends Mailable
             ->view('student.student-event-report')
                     ->with([
                         'student' => $this->student,
+                        'osa' => $this->osa,
                     ])
                     ->attachData($this->pdf->output(), 'eventreport.pdf', [
                         'mime' => 'application/pdf'
