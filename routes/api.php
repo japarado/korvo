@@ -16,9 +16,9 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('students/{id}/generate-report', 'StudentController@generateReport');
+/* Route::get('students/{id}/generate-report', 'StudentController@generateReport'); */
 
-Route::get('{student_id}/createReport', 'FileController@index');
+/* Route::get('{student_id}/createReport', 'FileController@index'); */
 
 Route::post('register', 'UserController@register');
 Route::post('login', 'UserController@authenticate');
@@ -37,7 +37,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::prefix('students')->group(function() {
         Route::get('', 'StudentController@index');
         Route::get('{id}', 'StudentController@show');
-        /* Route::get('{id}/generate-report', 'StudentController@generateReport'); */
+        Route::get('{id}/generate-report', 'StudentController@generateReport')->middleware('osa.user');
         Route::put('{id}', 'StudentController@update');
         Route::post('', 'StudentController@store')->middleware('org.user');
         Route::post('{student_id}/events/{event_id}', 'StudentController@assignToEvent')->middleware('org.user');
