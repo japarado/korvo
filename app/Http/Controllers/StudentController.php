@@ -220,7 +220,8 @@ class StudentController extends Controller
     public function generateReport(Request $request, $id)
     {
         $student = Student::find($id);
-        $osa = OSA::with('user')->first();
+        /* $osa = OSA::with('user')->first(); */
+        $osa = static::getCurrentUser()->osa;
         $context = [
             'student' => Student::with(['events' => function($query) {
                 $query->where('status', Config::get('constants.event_status.cleared'));
