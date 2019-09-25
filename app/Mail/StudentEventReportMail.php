@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Carbon;
 
 class StudentEventReportMail extends Mailable
 {
@@ -31,13 +32,14 @@ class StudentEventReportMail extends Mailable
      */
     public function build()
     {
+        $filename = strtoupper($this->student->last_name)  . ", " . strtoupper($this->student->first_name) . " " . Carbon::now()->toDateString() . ".pdf";
         return $this
             ->view('student.student-event-report')
                     ->with([
                         'student' => $this->student,
                         'osa' => $this->osa,
                     ])
-                    ->attachData($this->pdf->output(), 'eventreport.pdf', [
+                    ->attachData($this->pdf->output(), $filename, [
                         'mime' => 'application/pdf'
                     ]);
     }

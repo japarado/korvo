@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use PDF;
 use App\Event;
 use App\Http\Requests\StudentRequest;
+use App\Jobs\SendEventEmail;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\StudentEventReportMail;
 use App\OSA;
@@ -240,6 +241,7 @@ class StudentController extends Controller
                 if($request->input('recipient'))
                 {
                     $pdf = PDF::loadView('student.student-event-report', $context);
+                    /* SendEventEmail::dispatch($student, $osa); */
                     Mail::to($request->input('recipient'))->send(new StudentEventReportMail($student, $pdf, $osa));
                     return $pdf->download(strtoupper($student->last_name) . ", " . strtoupper($student->first_name) . " " . Carbon::now()->toDateString() . ".pdf");
                 }
