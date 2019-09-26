@@ -2,14 +2,17 @@
 
 namespace App\Jobs;
 
+use App\Mail\StudentEventReportMail;
 use App\OSA;
 use App\Student;
-use Barryvdh\DomPDF\PDF;
+use PDF;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class SendEventEmail implements ShouldQueue
 {
@@ -20,14 +23,16 @@ class SendEventEmail implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(Student $student, OSA $osa)
+    public function __construct($student, $osa, string $recipient)
     {
         $this->student = $student;
         $this->osa = $osa;
+        $this->recipient = $recipient;
     }
 
     public $student;
     public $osa;
+    public $recipient;
 
     /**
      * Execute the job.
@@ -37,15 +42,10 @@ class SendEventEmail implements ShouldQueue
     public function handle()
     {
         $context = [
-            'student' => Student::with(['events' => function($query) {
-                $query->where('status', Config::get('constants.event_status.cleared'));
-            }, 
-            'events.organization',
-            ])
-                ->where('student.id', $id)
-                ->first(),
-            'osa' => $osa,
+            'student' => $this->student,
+            'osa' => $this->osa,
         ];
         $pdf = PDF::loadView('student.student-event-report', $context);
+        Mail::to($this->recipient)->send(new StudentEventReportMail($this->student, $pdf, $this->osa));
     }
 }

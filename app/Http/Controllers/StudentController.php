@@ -220,19 +220,20 @@ class StudentController extends Controller
 
     public function generateReport(Request $request, $id)
     {
-        $student = Student::find($id);
-        /* $osa = OSA::with('user')->first(); */
-        $osa = static::getCurrentUser()->osa;
-        $context = [
-            'student' => Student::with(['events' => function($query) {
-                $query->where('status', Config::get('constants.event_status.cleared'));
-            }, 
+        $student = Student::with(['events' => function($query) {
+            $query->where('status', Config::get('constants.event_status.cleared'));
+        }, 
             'events.organization',
-            ])
-                ->where('student.id', $id)
-                ->first(),
+        ])
+            ->where('student.id', $id)
+            ->first();
+        $osa = static::getCurrentUser()->osa;
+
+        $context = [
+            'student' => $student,
             'osa' => $osa,
         ];
+
         /* return view('student.student-event-report')->with($context); */
         if($student)
         {
@@ -240,9 +241,10 @@ class StudentController extends Controller
             {
                 if($request->input('recipient'))
                 {
+                    $recipient = $request->input('recipient');
                     $pdf = PDF::loadView('student.student-event-report', $context);
-                    /* SendEventEmail::dispatch($student, $osa); */
-                    Mail::to($request->input('recipient'))->send(new StudentEventReportMail($student, $pdf, $osa));
+                    SendEventEmail::dispatch($student, $osa, $recipient);
+                    /* Mail::to($request->input('recipient'))->send(new StudentEventReportMail($student, $pdf, $osa)); */
                     return $pdf->download(strtoupper($student->last_name) . ", " . strtoupper($student->first_name) . " " . Carbon::now()->toDateString() . ".pdf");
                 }
                 else 
