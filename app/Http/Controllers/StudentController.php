@@ -233,6 +233,7 @@ class StudentController extends Controller
             'student' => $student,
             'osa' => $osa,
         ];
+        /* return $context; */
 
         /* return view('student.student-event-report')->with($context); */
         if($student)
