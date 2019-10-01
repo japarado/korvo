@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Event;
 use App\Http\Requests\CreateEvent;
+use App\Http\Requests\UpdateEvent;
 use App\Speaker;
 use App\Student;
 use Illuminate\Support\Facades\Config;
@@ -147,7 +148,7 @@ class EventController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CreateEvent $request, $id)
+    public function update(UpdateEvent $request, $id)
     {
         $user = static::getCurrentUser();
         $event = Event::find($id);
@@ -167,6 +168,12 @@ class EventController extends Controller
             // Prevent them from updating the status to an unallowed status code (e.g. setting it to cleared)
             return response()->json([
                 'error' => 'Invalid status code'
+            ]);
+        }
+        elseif(Event::where('ereserve_id', $request->input('ereserve_id'))->first() != $event)
+        {
+            return response()->json([
+                'error' => 'That E-Reserve ID has already been taken'
             ]);
         }
         else 

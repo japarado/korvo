@@ -13,7 +13,7 @@ $factory->define(Event::class, function (Faker $faker) {
     return [
         'name' => ucfirst($faker->word(6)) . " Event",
         'description' => implode($faker->sentences()),
-        'ereserve_id' => $faker->randomNumber(5),
+        'ereserve_id' => $faker->randomNumber(6),
         'academic_year' => $faker->numberBetween(2015, 2019),
         'classification' => $classification[array_rand($classification)],
         'status' => Config::get('constants.event_status.draft'),
