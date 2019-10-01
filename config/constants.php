@@ -15,5 +15,10 @@ return [
         'osa_rejection' => 5,
         'archived' => 6,
         'cleared' => 7
+    ],
+
+    'read_status' => [
+        'unread' => 0,
+        'read' => 1
     ]
 ];

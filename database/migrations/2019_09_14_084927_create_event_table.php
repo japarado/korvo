@@ -16,6 +16,7 @@ class CreateEventTable extends Migration
     {
         Schema::create('event', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('ereserve_id');
             $table->string('name');
             $table->string('academic_year');
             $table->date('date_start');
@@ -23,6 +24,7 @@ class CreateEventTable extends Migration
             $table->string('classification');
             $table->text('notes')->nullable(Config::get('constants.roles.organization'));
             $table->integer('status')->unsigned()->default();
+            $table->integer('read_status')->default(Config::get('constants.read_status.unread'));
             $table->bigInteger('organization_id')->unsigned()->unsigned();
             $table->bigInteger('socc_id')->unsigned()->nullable();
             $table->bigInteger('osa_id')->unsigned()->nullable();

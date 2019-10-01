@@ -76,7 +76,9 @@ class EventController extends Controller
         $event->name = $request->input('name');
         $event->academic_year = $request->input('academic_year');
         $event->date_start = $request->input('date_start');
-        $event->status = $request->input('status');
+        $event->status = $request->input('status'); 
+        $event->ereserve_id = $request->input('ereserve_id');
+        $event->read_status = $request->input('read_status');
         $event->classification = $request->input('classification');
         $event->organization_id = $user->id;
         $event->save();
@@ -170,6 +172,8 @@ class EventController extends Controller
             $event->date_start = $request->input('date_start');
             $event->status = $request->input('status');
             $event->classification = $request->input('classification');
+            $event->ereserve_id = $request->input('ereserve_id');
+            $event->read_status = $request->input('read_status');
             $event->organization_id = $user->id;
             $event->save();
 

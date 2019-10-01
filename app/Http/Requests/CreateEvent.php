@@ -37,6 +37,14 @@ class CreateEvent extends FormRequest
                     Config::get('constants.event_status.socc_approval'),
                 ]),
             ],
+            'read_status' => [
+                'numeric',
+                Rule::in([
+                    Config::get('constants.read_status.unread'),
+                    Config::get('constants.read_status.read'),
+                ]),
+            ],
+            'ereserve_id' => 'required|digits:5|numeric',
             'date_start' => 'required|date'
         ];
     }
