@@ -44,7 +44,7 @@ class CreateEvent extends FormRequest
                     Config::get('constants.read_status.read'),
                 ]),
             ],
-            'ereserve_id' => 'required|digits:5|numeric',
+            'ereserve_id' => 'required|digits:5|numeric|unique:event',
             'date_start' => 'required|date'
         ];
     }

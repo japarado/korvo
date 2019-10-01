@@ -16,7 +16,7 @@ class CreateEventTable extends Migration
     {
         Schema::create('event', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('ereserve_id');
+            $table->integer('ereserve_id')->unique();
             $table->string('name');
             $table->string('academic_year');
             $table->date('date_start');

@@ -71,6 +71,10 @@ class EventController extends Controller
      */
     public function store(CreateEvent $request)
     {
+        /* if(Event::where('ereserve_id', $request->input('ereserve_id'))->count()) */
+        /* { */
+        /*     return response() */
+        /* } */
         $user = static::getCurrentUser();
         $event = new Event();
         $event->name = $request->input('name');
