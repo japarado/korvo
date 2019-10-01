@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateEvent;
 use App\Speaker;
 use App\Student;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 
 class EventController extends Controller
 {
@@ -503,5 +504,18 @@ class EventController extends Controller
                 ]);
             }
         }
+    }
+
+    public function search(Request $request)
+    {
+        $query = DB::table('event');
+        foreach($request->query() as $key => $value)
+        {
+            $query = $query->orWhere($key, $value);
+        }
+        $query = $query->get();
+        return response()->json([
+            'results' => $query
+        ]);
     }
 }
