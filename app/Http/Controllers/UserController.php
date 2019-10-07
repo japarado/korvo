@@ -34,7 +34,16 @@ class UserController extends Controller
                 'error' => 'could_not_create_token'
             ], 500);
         }
-        return response()->json(compact('token'));
+
+        // Retrieve the entire user instance 
+        $user = User::where('email', $request->input('email'))->first();
+        $role_instance = static::getUserRoleInstance($user);
+        /* $user->role = $role_instance; */
+        return response()->json([
+            'token' => $token,
+            'user' => $user,
+        ]);
+        /* return response()->json(compact('token', 'user', 'role_instance')); */
     }
 
     public function register(Request $request)
@@ -167,6 +176,15 @@ class UserController extends Controller
         return response()->json([
             'users' => $users
         ]);
+    }
+
+    public function show($id)
+    {
+        $user = User::find($id);
+        $context = [
+            'user' => User::find($id)
+        ];
+        return response()->json($context);
     }
 
     public function destroy($id)
