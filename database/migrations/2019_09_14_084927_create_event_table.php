@@ -21,6 +21,7 @@ class CreateEventTable extends Migration
             $table->date('date_start');
             $table->text('description')->nullable();
             $table->string('classification');
+            $table->string('academic_year');
             $table->text('notes')->nullable(Config::get('constants.roles.organization'));
             $table->integer('status')->unsigned()->default();
             $table->integer('read_status')->default(Config::get('constants.read_status.unread'));
