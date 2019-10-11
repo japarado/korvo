@@ -16,7 +16,7 @@ class StudentTableSeeder extends Seeder
     {
         Event::all()->each(function($event) {
             $involvement_types = ['Participant', 'Organizer'];
-            factory(Student::class, 100)->create()->each(function($student) use ($event, $involvement_types) {
+            factory(Student::class, 5)->create()->each(function($student) use ($event, $involvement_types) {
                 $event->students()->attach($student->id, ['involvement' => $involvement_types[array_rand($involvement_types)]]);
             });
         });
