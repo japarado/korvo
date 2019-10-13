@@ -204,5 +204,17 @@ class UserController extends Controller
         }
     }
 
+    public function getArchivedUsers() {
+        return response()->json([
+            'users' => User::onlyTrashed()->get()
+        ]);
+    }
+
+    public function resetPassword() 
+    {
+        $user = static::getCurrentUser();
+    }
+
+
     // Helper Functions
 }
