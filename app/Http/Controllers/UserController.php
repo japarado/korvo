@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ChangePassword;
+use App\Http\Requests\UpdateUser;
 use App\User;
 use App\Organization;
 use App\SOCC;
@@ -157,6 +158,36 @@ class UserController extends Controller
 
         return response()->json(compact('user'));
     }    
+
+    public function update(UpdateUser $request, $id)
+    {
+        $user = User::find($id);
+        if(!$user)
+        {
+            return response()->json([
+                'error' => "User with ID of ${id} not found"
+            ]);
+        }
+        elseif(User::where('email', $request->input('email'))->get()->first()->id != $id)
+        {
+            return response()->json([
+                'error' => 'That email has already been taken'
+            ]);
+        }
+        else 
+        {
+            $user->email = $request->input('email');
+            $user->password = Hash::make($request->input('password'));
+            $user->last_name = $request->input('last_name');
+            $user->first_name = $request->input('last_name');
+            $user->student_number = $request->input('student_number');
+            $user->save();
+
+            return response()->json([
+                'user' => $user
+            ]);
+        }
+    }
 
     public function index()
     {

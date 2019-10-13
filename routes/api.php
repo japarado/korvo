@@ -36,6 +36,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
 
         Route::get('', 'UserController@index');
         Route::get('{id}', 'UserController@show');
+        Route::put('{id}', 'UserController@update')->middleware('osa.user');
         Route::put("/change-password", "UserController@changePassword");
 
     });
