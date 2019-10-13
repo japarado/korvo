@@ -212,7 +212,6 @@ class UserController extends Controller
 
     public function resetPassword() 
     {
-        $user = static::getCurrentUser();
     }
 
 

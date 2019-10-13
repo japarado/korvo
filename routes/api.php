@@ -29,10 +29,14 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::delete('speakers/{speaker_id}/events/{event_id}', "SpeakerController@removeFromEvent");
 
     Route::prefix('users')->group(function(){
-        Route::get('/archived', 'UserController@getArchivedUsers')->middleware('osa.user');
+        Route::group(['middleware' => 'osa.user'], function() {
+            Route::get('/archived', 'UserController@getArchivedUsers')->middleware('osa.user');
+            Route::delete('{id}', 'UserController@destroy')->middleware('osa.user');
+        });
+
         Route::get('', 'UserController@index');
         Route::get('{id}', 'UserController@show');
-        Route::delete('{id}', 'UserController@destroy')->middleware('osa.user');
+
     });
 
     Route::prefix('students')->group(function() {
