@@ -30,8 +30,10 @@ Route::group(['middleware' => ['jwt.verify']], function () {
 
     Route::prefix('users')->group(function(){
         Route::group(['middleware' => 'osa.user'], function() {
-            Route::get('/archived', 'UserController@getArchivedUsers')->middleware('osa.user');
-            Route::delete('{id}', 'UserController@destroy')->middleware('osa.user');
+            Route::get('/archived', 'UserController@getArchivedUsers');
+            Route::put('/mass-activate', 'UserController@massActivate');
+            Route::put('/mass-deactivate', 'UserController@massDeactivate');
+            Route::delete('{id}', 'UserController@destroy');
         });
 
         Route::get('', 'UserController@index');

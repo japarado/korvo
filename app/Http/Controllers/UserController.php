@@ -263,5 +263,35 @@ class UserController extends Controller
         }
     }
 
+    public function massDeactivate() 
+    {
+        $users = User::where('role_id', '<>', Config::get('constants.roles.osa'));
+
+        $deactivated_users = $users->get();
+        $deactivated_user_count = $users->count();
+
+        $users->delete();
+
+        return response()->json([
+            'users' => $deactivated_users,
+            'count' => $deactivated_user_count
+        ]);
+    }
+
+    public function massActivate() 
+    {
+        $users = User::onlyTrashed()->where('role_id', '<>', Config::get('constants.roles.osa'));
+
+        $activated_users = $users->get();
+        $activated_user_count = $users->count();
+
+        $users->restore();
+
+        return response()->json([
+            'users' => $activated_users,
+            'count' => $activated_user_count
+        ]);
+    }
+
     // Helper Functions
 }
