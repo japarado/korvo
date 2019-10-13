@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ChangePassword;
 use App\User;
 use App\Organization;
 use App\SOCC;
@@ -210,10 +211,26 @@ class UserController extends Controller
         ]);
     }
 
-    public function resetPassword() 
+    public function changePassword(ChangePassword $request) 
     {
-    }
+        $user = static::getCurrentUser();
 
+        if(Hash::check($request->input('password'), $user->password))
+        {
+            return response()->json([
+                'error' => 'New password cannot be the same as the old password'
+            ]);
+        }
+        else 
+        {
+            $user->password = Hash::make($request->input('password'));
+            $user->save();
+            return response()->json([
+                'user' => $user,
+                'message' => 'Password updated'
+            ]);
+        }
+    }
 
     // Helper Functions
 }
