@@ -87,6 +87,7 @@ class EventController extends Controller
         $event->read_status = $request->input('read_status');
         $event->classification = $request->input('classification');
         $event->organization_id = $user->id;
+        $event->description = $request->input('description');
         $event->save();
 
         return response()->json([
@@ -186,6 +187,7 @@ class EventController extends Controller
             $event->classification = $request->input('classification');
             $event->ereserve_id = $request->input('ereserve_id');
             $event->read_status = $request->input('read_status');
+            $event->description = $request->input('description');
             $event->organization_id = $user->id;
             $event->save();
 
