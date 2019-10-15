@@ -235,7 +235,7 @@ class StudentController extends Controller
         ];
         /* return $context; */
 
-        return view('student.student-event-report')->with($context);
+        /* return view('student.student-event-report')->with($context); */
         if($student)
         {
             if($request->input('mail') == true)
