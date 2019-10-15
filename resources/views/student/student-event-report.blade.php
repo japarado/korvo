@@ -106,6 +106,18 @@
                             <p>Officer-in-Charge for Student Activities</p>
                         </div>
                     </div>
+
+                    <hr/>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <sup>1</sup> You may contact the office for student affairs, University of Santo Tomas to verify the authenticity of this 
+                            certification by providing the control number at the end of this certificate.
+                        </div>
+                    </div>
+
+                    <hr/>
+
                     <div class="row">
                         <div class="col-md-12">
                             Rm. 212 UST Tan Yan Kee Student Center <br/>
