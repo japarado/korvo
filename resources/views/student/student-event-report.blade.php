@@ -77,9 +77,14 @@
                 <section id="certificationText" class="mt-5">
                     <div class="row">
                         <div class="col-md-12">
-                            <h1 class="text-uppercase text-center times-new-roman">Certification</h1>
+                            <u><h1 class="text-uppercase text-center times-new-roman">Certification</h1></u>
                         </div>
                     </div>
+
+                    <br/>
+                    <br/>
+                    <br/>
+
                     <div class="row">
                         <div class="col-md-12">
                             <p class="text-justify times-new-roman">
@@ -90,7 +95,6 @@
                         </div>
                     </div>
                 </section>
-
                 <section id="events">
                     @foreach($student->events as $event)
                         <div class="row mb-4">
@@ -103,7 +107,7 @@
                                         <td><b>Involvement</b></td>
                                     </tr>
                                     <tr>
-                                        <td>{{ $event->date_start }}</td>
+                                        <td>{{ $event->academic_year }}</td>
                                         <td>{{ $event->name }}</td>
                                         <td>{{ $event->organization->name }}</td>
                                         <td>{{ $event->pivot->involvement }}</td>
@@ -128,6 +132,10 @@
                     </div>
                 </section>
 
+                <br/>
+                <br/>
+                <br/>
+
                 <section id="seal">
                     <div class="row text-right">
                         <div class="col-md-12">
@@ -140,8 +148,8 @@
 
                     <div class="row">
                         <div class="col-md-12 font-10-px calibri">
-                            <sup>1</sup> You may contact the office for student affairs, University of Santo Tomas to verify the authenticity of this 
-                            certification by providing the control number at the end of this certificate.
+                            <sup>1</sup> You may contact the Office for Student Affairs, University of Santo Tomas to verify the authenticity of this 
+                            certification by providing the student number at the end of this certificate.
                         </div>
                     </div>
 
