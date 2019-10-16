@@ -6,25 +6,54 @@
               href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
               integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
               crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ asset('css/pdf-style.css') }}"/>
     </head>
     <body>
+        <style>
+            .tahoma {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+
+            .times-new-roman {
+                font-family: 'Times New Roman', Times, serif;
+            }
+
+            .calibri {
+                font-family: "Calibri (Body)";
+            }
+
+            .font-20-px {
+                font-size: 20px;
+            }
+
+            .font-14-px {
+                font-size: 14px;
+            }
+             .font-11-px {
+                 font-size: 11px;
+             }
+
+             .font-10-px {
+                 font-size: 10px;
+             }
+        </style>
         <div class="container">
 
             <header>
                 <div class="text-center">
                     <div class="row">
                         <div class="col-md-12">
-                            <h1>University of Santo Tomas</h1>
+                            <h1 class="tahoma">University of Santo Tomas</h1>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <h3>Office for Student Affairs</h3>
+                            <h3 class="tahoma">Office for Student Affairs</h3>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <h4>Espana Boulevard, Sampaloc, Manila, 1008 Metro Manila</h4>
+                            <h4 class="tahoma font-14-px">Espana Boulevard, Sampaloc, Manila, 1008 Metro Manila</h4>
                         </div>
                     </div>
                 </div>
@@ -35,7 +64,7 @@
                 <section id="studentInfo">
                     <div class="row">
                         <div class="col-md-4">
-                            <b>Name: </b>{{ $student->last_name }}, {{ $student->first_name }}
+                            <b class="tahoma">Name: </b>{{ $student->last_name }}, {{ $student->first_name }}
                         </div>
                     </div>
                     <div class="row">
@@ -48,15 +77,15 @@
                 <section id="certificationText" class="mt-5">
                     <div class="row">
                         <div class="col-md-12">
-                            <h1 class="text-uppercase text-center">Certification</h1>
+                            <h1 class="text-uppercase text-center times-new-roman">Certification</h1>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <p class="text-justify">
-                                This is to certify that the aforementioned individual is a student of the 
-                                <u>University of Santo Tomas</u> and has participated in the following 
-                                activities during his/her stay in the University<sup>1</sup>
+                            <p class="text-justify times-new-roman">
+                            This is to certify that the aforementioned individual is a student of the 
+                            <u>University of Santo Tomas</u> and has participated in the following 
+                            activities during his/her stay in the University<sup>1</sup>
                             </p>
                         </div>
                     </div>
@@ -66,7 +95,7 @@
                     @foreach($student->events as $event)
                         <div class="row mb-4">
                             <div class="col-md-12">
-                                <table class="table table-bordered">
+                                <table class="table table-bordered times-new-roman">
                                     <tr>
                                         <td><b>Academic Year</b></td>
                                         <td><b>Event Name</b></td>
@@ -94,7 +123,7 @@
                 <section id="eventCount" >
                     <div class="row">
                         <div class="col-md-6">
-                            <p>Total number of attended activities: {{ count($student->events) }}</p>
+                            <p class="times-new-roman">Total number of attended activities: {{ count($student->events) }}</p>
                         </div>
                     </div>
                 </section>
@@ -102,15 +131,15 @@
                 <section id="seal">
                     <div class="row text-right">
                         <div class="col-md-12">
-                            <h4>{{ $osa->user->first_name }} {{ $osa->user->last_name }}</h4>
-                            <p>Officer-in-Charge for Student Activities</p>
+                            <h4 class="times-new-roman">{{ $osa->user->first_name }} {{ $osa->user->last_name }}</h4>
+                            <p class="times-new-roman">Officer-in-Charge for Student Activities</p>
                         </div>
                     </div>
 
                     <hr/>
 
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-12 font-10-px calibri">
                             <sup>1</sup> You may contact the office for student affairs, University of Santo Tomas to verify the authenticity of this 
                             certification by providing the control number at the end of this certificate.
                         </div>
@@ -119,7 +148,7 @@
                     <hr/>
 
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-12 times-new-roman font-10-px">
                             Rm. 212 UST Tan Yan Kee Student Center <br/>
                             University of Santo Tomas, Espana Boulevard <br/>
                             Manila, 1015 PHILIPPINES <br/>
