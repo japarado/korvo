@@ -24,6 +24,10 @@ class StudentEventReportMail extends Mailable
         $this->osa = $osa;
     }
 
+    public $student;
+    public $pdf;
+    public $osa;
+
 
     /**
      * Build the message.
@@ -33,14 +37,14 @@ class StudentEventReportMail extends Mailable
     public function build()
     {
         $filename = strtoupper($this->student->last_name)  . ", " . strtoupper($this->student->first_name) . " " . Carbon::now()->toDateString() . ".pdf";
+        $student_name = strtoupper($this->student->last_name) . ", " . strtoupper($this->student->first_name);
         return $this
-            ->view('student.student-event-report')
-                    ->with([
-                        'student' => $this->student,
-                        'osa' => $this->osa,
-                    ])
-                    ->attachData($this->pdf->output(), $filename, [
-                        'mime' => 'application/pdf'
-                    ]);
+            ->view('student.report-email');
+            /* ->text("Attached herewith is the report of student events for $student_name, Student number: {$this->student->student_number}"); */
+        /* return $this */
+        /*     ->view('student.student-event-report') */
+        /*     ->attachData($this->pdf->output(), $filename, [ */
+        /*         'mime' => 'application/pdf' */
+        /*     ]); */
     }
 }
