@@ -1,2 +1,2 @@
 # korvo
-Event manager back-end (API engine)
+Event manager back-end (API server)
